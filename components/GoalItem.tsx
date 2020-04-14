@@ -1,15 +1,27 @@
 import React from "react";
-import {View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-interface GoalItemProps {
-  title: string
+export interface Goal {
+  id: string;
+  value: string;
 }
 
-function GoalItem({title}: GoalItemProps) {
+interface GoalItemProps {
+  goal: Goal;
+  deleteGoal: (id: string) => void
+}
+
+function GoalItem({ goal, deleteGoal }: GoalItemProps) {
+  function touchHandler() {
+    deleteGoal(goal.id)
+  }
+
   return (
-    <View style={styles.goal}>
-      <Text>{title}</Text>
-    </View>
+    <TouchableOpacity onPress={touchHandler} activeOpacity={0.8}>
+      <View style={styles.goal}>
+        <Text>{goal.value}</Text>
+      </View>
+    </TouchableOpacity>
   );
 }
 
@@ -20,8 +32,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ccc",
     borderColor: "black",
     borderWidth: 1,
-  }
+  },
 });
 
 export default GoalItem;
-

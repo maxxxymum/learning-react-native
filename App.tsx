@@ -6,12 +6,7 @@ import {
 } from "react-native";
 
 import GoalInput from './components/GoalInput';
-import GoalItem from './components/GoalItem';
-
-interface Goal {
-  key: number;
-  value: string;
-}
+import GoalItem, { Goal } from './components/GoalItem';
 
 export default function App() {
   const [courseGoals, setCourseGoals] = useState<Goal[]>([]);
@@ -19,8 +14,14 @@ export default function App() {
   function addGoal(goal: string) {
     setCourseGoals((currentGoals) => [
       ...currentGoals,
-      { key: Math.random(), value: goal },
+      { id: Math.random().toString(), value: goal },
     ]);
+  }
+
+  function deleteGoal(id: string) {
+    setCourseGoals((currentGoals) => {
+      return currentGoals.filter((goal) => goal.id !== id);
+    })
   }
 
   return (
@@ -28,8 +29,9 @@ export default function App() {
       <GoalInput addGoal={addGoal} /> 
 
       <FlatList
+        keyExtractor={(item) => item.id}
         data={courseGoals}
-        renderItem={(itemData) => <GoalItem title={itemData.item.value} />}
+        renderItem={(itemData) => <GoalItem goal={itemData.item} deleteGoal={deleteGoal} />}
       />
     </View>
   );
