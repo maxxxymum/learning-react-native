@@ -8,12 +8,12 @@ export interface Goal {
 
 interface GoalItemProps {
   goal: Goal;
-  deleteGoal: (id: string) => void
+  deleteGoal: (id: string) => void;
 }
 
 function GoalItem({ goal, deleteGoal }: GoalItemProps) {
   function touchHandler() {
-    deleteGoal(goal.id)
+    deleteGoal(goal.id);
   }
 
   return (
