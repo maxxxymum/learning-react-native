@@ -19,12 +19,12 @@ const styles = StyleSheet.create({
     height: 90,
     paddingTop: 36,
     backgroundColor: "#f7287b",
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: "center",
+    justifyContent: "center",
   },
   text: {
-      color: 'black',
-      fontSize: 18
+    color: "black",
+    fontSize: 18,
   },
 });
 
