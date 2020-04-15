@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   Button,
   ViewStyle,
   TextStyle,
@@ -11,6 +10,7 @@ import {
 
 import Card from "../components/Card";
 import Colors from "../constants/colors";
+import Input from "../components/Input";
 
 function StartGame() {
   return (
@@ -19,7 +19,14 @@ function StartGame() {
 
       <Card style={styles.inputContainer}>
         <Text>Select a Number</Text>
-        <TextInput />
+        <Input
+          blurOnSubmit
+          style={styles.input}
+          keyboardType="number-pad"
+          autoCorrect={false}
+          autoCapitalize="none"
+          maxLength={2}
+        />
         <View style={styles.buttonsContainer}>
           <View style={styles.button}>
             <Button title="Reset" color={Colors.accent} />
@@ -41,6 +48,7 @@ interface Styles {
   inputContainer: ViewStyle;
   buttonsContainer: ViewStyle;
   button: ViewStyle;
+  input: ViewStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -65,7 +73,10 @@ const styles = StyleSheet.create<Styles>({
     paddingHorizontal: 15,
   },
   button: {
-      width: 100,
+    width: 100,
+  },
+  input: {
+    width: 50,
   },
 });
 
