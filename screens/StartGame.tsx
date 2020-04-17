@@ -16,7 +16,11 @@ import Colors from "../constants/colors";
 import Input from "../components/Input";
 import NumberContainer from "../components/NumberContainer";
 
-function StartGame() {
+interface StartGameProps {
+  onStartGame: (userChoice: number) => void
+}
+
+function StartGame({ onStartGame } : StartGameProps) {
   const [enteredValue, setEnteredValue] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState<number>();
@@ -50,14 +54,14 @@ function StartGame() {
 
   let confirmedContent;
 
-  if (confirmed) {
+  if (confirmed && selectedNumber) {
     confirmedContent = (
       <Card style={styles.sumarryContainer}>
         <Text>You selected</Text>
 
         <NumberContainer>{selectedNumber}</NumberContainer>
 
-        <Button title="START GAME" />
+        <Button title="START GAME" onPress={() => onStartGame(selectedNumber)} />
       </Card>
     );
   }

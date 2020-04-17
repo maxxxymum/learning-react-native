@@ -37,7 +37,7 @@ const GameScreen: FunctionComponent<GameScreenProps> = ({ userChoice }) => {
 
       <Card style={styles.buttonContainer}>
         <Button title="LOWER" />
-        <Button title="GREATED" />
+        <Button title="GREATER" />
       </Card>
     </View>
   );
