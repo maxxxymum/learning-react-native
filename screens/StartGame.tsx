@@ -73,7 +73,7 @@ function StartGame({ onStartGame } : StartGameProps) {
       }}
     >
       <View style={styles.screen}>
-        <Text style={styles.title}>The a New Game!</Text>
+        <Text style={styles.title}>Start a New Game!</Text>
 
         <Card style={styles.inputContainer}>
           <Text>Select a Number</Text>
@@ -132,6 +132,7 @@ const styles = StyleSheet.create<Styles>({
   title: {
     fontSize: 20,
     marginVertical: 10,
+    fontFamily: "open-sans-bold"
   },
   inputContainer: {
     width: 300,
