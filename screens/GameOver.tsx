@@ -12,6 +12,7 @@ import {
 
 import BodyText from "../components/BodyText";
 import TitleText from "../components/TitleText";
+import MainButton from "../components/MainButton";
 import Colors from "../constants/colors";
 
 interface GameOverScreenProps {
@@ -47,7 +48,7 @@ const GameOverScreen: FunctionComponent<GameOverScreenProps> = ({
         </BodyText>
       </View>
 
-      <Button title="NEW GAME" onPress={onRestartGame} />
+      <MainButton onPress={onRestartGame}>NEW GAME</MainButton>
     </View>
   );
 };

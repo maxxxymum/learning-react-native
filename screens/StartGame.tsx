@@ -17,6 +17,7 @@ import Input from "../components/Input";
 import NumberContainer from "../components/NumberContainer";
 import BodyText from "../components/BodyText";
 import TitleText from "../components/TitleText";
+import MainButton from "../components/MainButton";
 
 interface StartGameProps {
   onStartGame: (userChoice: number) => void;
@@ -63,10 +64,9 @@ function StartGame({ onStartGame }: StartGameProps) {
 
         <NumberContainer>{selectedNumber}</NumberContainer>
 
-        <Button
-          title="START GAME"
-          onPress={() => onStartGame(selectedNumber)}
-        />
+        <MainButton onPress={() => onStartGame(selectedNumber)}>
+          START GAME
+        </MainButton>
       </Card>
     );
   }
