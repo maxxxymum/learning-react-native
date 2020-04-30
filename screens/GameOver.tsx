@@ -1,5 +1,15 @@
 import React, { FunctionComponent } from "react";
-import { View, Text, StyleSheet, ViewStyle, Button } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ViewStyle,
+  Button,
+  Image,
+  ImageStyle,
+} from "react-native";
+
+import BodyText from "../components/BodyText";
+import TitleText from "../components/TitleText";
 
 interface GameOverScreenProps {
   roundsNumber: number;
@@ -14,9 +24,17 @@ const GameOverScreen: FunctionComponent<GameOverScreenProps> = ({
 }) => {
   return (
     <View style={styles.screen}>
-      <Text>The game is Over!</Text>
-      <Text>Number of rounds: {roundsNumber}</Text>
-      <Text>Number was: {userNumber}</Text>
+      <TitleText>The game is Over!</TitleText>
+      <View style={styles.imageContainer}>
+        <Image
+          source={require("../assets/success.png")}
+          style={styles.image}
+          resizeMode="cover"
+        />
+      </View>
+      
+      <BodyText>Number of rounds: {roundsNumber}</BodyText>
+      <BodyText>Number was: {userNumber}</BodyText>
       <Button title="NEW GAME" onPress={onRestartGame} />
     </View>
   );
@@ -24,6 +42,8 @@ const GameOverScreen: FunctionComponent<GameOverScreenProps> = ({
 
 interface Styles {
   screen: ViewStyle;
+  imageContainer: ViewStyle;
+  image: ImageStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -31,6 +51,19 @@ const styles = StyleSheet.create<Styles>({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  imageContainer: {
+    width: 300,
+    height: 300,
+    borderRadius: 150,
+    borderWidth: 3,
+    borderColor: "black",
+    overflow: "hidden",
+    marginVertical: 30,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
   },
 });
 
