@@ -1,9 +1,14 @@
 import React from "react";
-import { Text, StyleSheet, TextStyle } from "react-native";
+import { Text, StyleSheet, TextStyle, StyleProp } from "react-native";
 
-const BodyText: React.FunctionComponent = ({ children }) => (
-  <Text style={styles.body}>{children}</Text>
-);
+interface BodyTextProps {
+  style?: StyleProp<TextStyle>;
+}
+
+const BodyText: React.FunctionComponent<BodyTextProps> = ({
+  style,
+  children,
+}) => <Text style={[styles.body, style]}>{children}</Text>;
 
 interface Styles {
   body: TextStyle;

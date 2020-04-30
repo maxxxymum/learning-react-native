@@ -6,10 +6,13 @@ import {
   Button,
   Image,
   ImageStyle,
+  Text,
+  TextStyle,
 } from "react-native";
 
 import BodyText from "../components/BodyText";
 import TitleText from "../components/TitleText";
+import Colors from "../constants/colors";
 
 interface GameOverScreenProps {
   roundsNumber: number;
@@ -27,14 +30,23 @@ const GameOverScreen: FunctionComponent<GameOverScreenProps> = ({
       <TitleText>The game is Over!</TitleText>
       <View style={styles.imageContainer}>
         <Image
-          source={{uri: 'https://www.oddizzi.com/wp-content/uploads/2011/01/img-woman-on-summit.jpg'}}
+          source={{
+            uri:
+              "https://www.oddizzi.com/wp-content/uploads/2011/01/img-woman-on-summit.jpg",
+          }}
           style={styles.image}
           resizeMode="cover"
         />
       </View>
-      
-      <BodyText>Number of rounds: {roundsNumber}</BodyText>
-      <BodyText>Number was: {userNumber}</BodyText>
+
+      <View style={styles.resultContainer}>
+        <BodyText style={styles.resultText}>
+          Your phone needed <Text style={styles.highlight}>{roundsNumber}</Text>{" "}
+          rounds to guess the number{" "}
+          <Text style={styles.highlight}>{userNumber}</Text>
+        </BodyText>
+      </View>
+
       <Button title="NEW GAME" onPress={onRestartGame} />
     </View>
   );
@@ -44,6 +56,9 @@ interface Styles {
   screen: ViewStyle;
   imageContainer: ViewStyle;
   image: ImageStyle;
+  resultContainer: ViewStyle;
+  resultText: TextStyle;
+  highlight: TextStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -59,11 +74,23 @@ const styles = StyleSheet.create<Styles>({
     borderWidth: 3,
     borderColor: "black",
     overflow: "hidden",
-    marginVertical: 30,
+    marginVertical: 20,
   },
   image: {
     width: "100%",
     height: "100%",
+  },
+  resultContainer: {
+    marginHorizontal: 20,
+    marginVertical: 15,
+  },
+  resultText: {
+    textAlign: "center",
+    fontSize: 20,
+  },
+  highlight: {
+    color: Colors.primary,
+    fontFamily: "open-sans-bold",
   },
 });
 
