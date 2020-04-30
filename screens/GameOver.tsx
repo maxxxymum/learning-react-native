@@ -27,7 +27,7 @@ const GameOverScreen: FunctionComponent<GameOverScreenProps> = ({
       <TitleText>The game is Over!</TitleText>
       <View style={styles.imageContainer}>
         <Image
-          source={require("../assets/success.png")}
+          source={{uri: 'https://www.oddizzi.com/wp-content/uploads/2011/01/img-woman-on-summit.jpg'}}
           style={styles.image}
           resizeMode="cover"
         />
