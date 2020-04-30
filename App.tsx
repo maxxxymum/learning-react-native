@@ -1,51 +1,76 @@
 import React, { useState } from "react";
-import { StyleSheet, View, FlatList, Button } from "react-native";
+import { StyleSheet, View } from "react-native";
+import * as Font from "expo-font";
+import { AppLoading } from "expo";
 
-import GoalInput from "./components/GoalInput";
-import GoalItem, { Goal } from "./components/GoalItem";
+import Header from "./components/Header";
+import StartGameScreen from "./screens/StartGame";
+import GameScreen from "./screens/Game";
+import GameOverScreen from "./screens/GameOver";
+
+function fetchFonts() {
+  return Font.loadAsync({
+    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
+    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+  });
+}
 
 export default function App() {
-  const [courseGoals, setCourseGoals] = useState<Goal[]>([]);
-  const [isAddMode, setIsAddMode] = useState(false);
+  const [userNumber, setUserNumber] = useState<number | null>();
+  const [guessRounds, setGuessRounds] = useState(0);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
-  function addGoal(goal: string) {
-    setCourseGoals((currentGoals) => [
-      ...currentGoals,
-      { id: Math.random().toString(), value: goal },
-    ]);
-
-    setIsAddMode(false);
+  if (!dataLoaded) {
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setDataLoaded(true)}
+        onError={(error) => console.error(error)}
+      />
+    );
   }
 
-  function deleteGoal(id: string) {
-    setCourseGoals((currentGoals) => {
-      return currentGoals.filter((goal) => goal.id !== id);
-    });
+  function configureNewGame() {
+    setGuessRounds(0);
+    setUserNumber(null);
+  }
+
+  function startGameHandler(selectedNumber: number) {
+    setUserNumber(selectedNumber);
+    setGuessRounds(0);
+  }
+
+  function gameOverHandler(numberOfRounds: number) {
+    setGuessRounds(numberOfRounds);
+  }
+
+  let content = <StartGameScreen onStartGame={startGameHandler} />;
+
+  if (userNumber && guessRounds <= 0) {
+    content = (
+      <GameScreen userChoice={userNumber} onGameOver={gameOverHandler} />
+    );
+  } else if (userNumber && guessRounds > 0) {
+    content = (
+      <GameOverScreen
+        roundsNumber={guessRounds}
+        userNumber={userNumber}
+        onRestartGame={configureNewGame}
+      />
+    );
   }
 
   return (
     <View style={styles.screen}>
-      <Button title="Add New Goal" onPress={() => setIsAddMode(true)} />
+      <Header title="Guess a Number" />
 
-      <GoalInput
-        addGoal={addGoal}
-        isVisible={isAddMode}
-        closeInput={() => setIsAddMode(false)}
-      />
-
-      <FlatList
-        keyExtractor={(item) => item.id}
-        data={courseGoals}
-        renderItem={(itemData) => (
-          <GoalItem goal={itemData.item} deleteGoal={deleteGoal} />
-        )}
-      />
+      {content}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   screen: {
-    padding: 50,
+    flex: 1,
   },
 });
