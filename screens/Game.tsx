@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useState, useRef, useEffect } from "react";
-import { View, Text, StyleSheet, Button, ViewStyle, Alert } from "react-native";
+import { View, Text, StyleSheet, ViewStyle, Alert } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
@@ -91,9 +92,11 @@ const GameScreen: FunctionComponent<GameScreenProps> = ({
       <NumberContainer>{currentGuess}</NumberContainer>
 
       <Card style={styles.buttonContainer}>
-        <MainButton onPress={() => nextGuessHandler("lower")}>LOWER</MainButton>
+        <MainButton onPress={() => nextGuessHandler("lower")}>
+          <Ionicons name="md-remove" size={24} />
+        </MainButton>
         <MainButton onPress={() => nextGuessHandler("greater")}>
-          GREATER
+        <Ionicons name="md-add" size={24} />
         </MainButton>
       </Card>
     </View>
@@ -116,7 +119,7 @@ const styles = StyleSheet.create<Styles>({
     justifyContent: "space-around",
     marginTop: 20,
     width: 300,
-    maxWidth: "90%",
+    maxWidth: "80%",
   },
 });
 
