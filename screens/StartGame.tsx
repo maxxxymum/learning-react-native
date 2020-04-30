@@ -15,12 +15,14 @@ import Card from "../components/Card";
 import Colors from "../constants/colors";
 import Input from "../components/Input";
 import NumberContainer from "../components/NumberContainer";
+import BodyText from "../components/BodyText";
+import TitleText from "../components/TitleText";
 
 interface StartGameProps {
-  onStartGame: (userChoice: number) => void
+  onStartGame: (userChoice: number) => void;
 }
 
-function StartGame({ onStartGame } : StartGameProps) {
+function StartGame({ onStartGame }: StartGameProps) {
   const [enteredValue, setEnteredValue] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState<number>();
@@ -61,7 +63,10 @@ function StartGame({ onStartGame } : StartGameProps) {
 
         <NumberContainer>{selectedNumber}</NumberContainer>
 
-        <Button title="START GAME" onPress={() => onStartGame(selectedNumber)} />
+        <Button
+          title="START GAME"
+          onPress={() => onStartGame(selectedNumber)}
+        />
       </Card>
     );
   }
@@ -73,10 +78,10 @@ function StartGame({ onStartGame } : StartGameProps) {
       }}
     >
       <View style={styles.screen}>
-        <Text style={styles.title}>Start a New Game!</Text>
+        <TitleText style={styles.title}>Start a New Game!</TitleText>
 
         <Card style={styles.inputContainer}>
-          <Text>Select a Number</Text>
+          <BodyText>Select a Number</BodyText>
           <Input
             blurOnSubmit
             style={styles.input}
@@ -132,7 +137,7 @@ const styles = StyleSheet.create<Styles>({
   title: {
     fontSize: 20,
     marginVertical: 10,
-    fontFamily: "open-sans-bold"
+    fontFamily: "open-sans-bold",
   },
   inputContainer: {
     width: 300,
@@ -153,7 +158,7 @@ const styles = StyleSheet.create<Styles>({
   },
   sumarryContainer: {
     marginTop: 20,
-    alignItems: "center"
+    alignItems: "center",
   },
 });
 
