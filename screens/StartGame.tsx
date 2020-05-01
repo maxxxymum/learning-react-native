@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -30,6 +30,9 @@ function StartGame({ onStartGame }: StartGameProps) {
   const [enteredValue, setEnteredValue] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState<number>();
+  const [buttonWidth, setButtonWidth] = useState(
+    Dimensions.get("window").width / 4
+  );
 
   function numberInputHandler(inputText: string) {
     setEnteredValue(inputText.replace(/[^0-9]/g, ""));
@@ -39,6 +42,18 @@ function StartGame({ onStartGame }: StartGameProps) {
     setEnteredValue("");
     setConfirmed(false);
   }
+
+  useEffect(() => {
+    const updateLayout = () => {
+      setButtonWidth(Dimensions.get("window").width / 4);
+    };
+  
+    Dimensions.addEventListener("change", updateLayout);
+
+    return () => {
+      Dimensions.removeEventListener("change", updateLayout);
+    }
+  })
 
   function confirmInputHandler() {
     const chosenNumber = parseInt(enteredValue);
@@ -98,14 +113,14 @@ function StartGame({ onStartGame }: StartGameProps) {
                 onChangeText={numberInputHandler}
               />
               <View style={styles.buttonsContainer}>
-                <View style={styles.button}>
+                <View style={{ width: buttonWidth }}>
                   <Button
                     title="Reset"
                     color={Colors.accent}
                     onPress={resetInputHandler}
                   />
                 </View>
-                <View style={styles.button}>
+                <View style={{ width: buttonWidth }}>
                   <Button
                     title="Confirm"
                     color={Colors.primary}
@@ -130,7 +145,6 @@ interface Styles {
   title: TextStyle;
   inputContainer: ViewStyle;
   buttonsContainer: ViewStyle;
-  button: ViewStyle;
   input: ViewStyle;
   sumarryContainer: ViewStyle;
 }
@@ -157,9 +171,6 @@ const styles = StyleSheet.create<Styles>({
     width: "100%",
     justifyContent: "space-between",
     paddingHorizontal: 15,
-  },
-  button: {
-    width: Dimensions.get("window").width / 4,
   },
   input: {
     width: 50,
