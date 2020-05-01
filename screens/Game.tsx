@@ -6,6 +6,7 @@ import {
   ViewStyle,
   Alert,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -141,13 +142,13 @@ const styles = StyleSheet.create<Styles>({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: 20,
+    marginTop: Dimensions.get("window").height > 600 ? 20 : 10,
     width: 300,
     maxWidth: "80%",
   },
   listContainer: {
     flex: 1,
-    width: '80%',
+    width: "80%",
   },
   list: {
     alignItems: "center",
@@ -155,14 +156,14 @@ const styles = StyleSheet.create<Styles>({
     flexGrow: 1,
   },
   listItem: {
-    width: "60%", 
+    width: Dimensions.get('window').width > 350 ? "60%" : "90%",
     borderColor: "black",
     borderWidth: 1,
     padding: 15,
     marginVertical: 10,
     backgroundColor: "white",
     flexDirection: "row",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
 });
 
