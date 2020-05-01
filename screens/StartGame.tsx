@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -9,7 +9,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
-  Dimensions,
   ScrollView,
   KeyboardAvoidingView,
 } from "react-native";
@@ -22,17 +21,23 @@ import BodyText from "../components/BodyText";
 import TitleText from "../components/TitleText";
 import MainButton from "../components/MainButton";
 
+import useDeviceDimensions from "../hooks/useDeviceDimensions";
+
 interface StartGameProps {
   onStartGame: (userChoice: number) => void;
+}
+
+function useAdaptiveButtonWidth() {
+  const { deviceWidth } = useDeviceDimensions();
+
+  return deviceWidth / 4;
 }
 
 function StartGame({ onStartGame }: StartGameProps) {
   const [enteredValue, setEnteredValue] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState<number>();
-  const [buttonWidth, setButtonWidth] = useState(
-    Dimensions.get("window").width / 4
-  );
+  const buttonWidth = useAdaptiveButtonWidth();
 
   function numberInputHandler(inputText: string) {
     setEnteredValue(inputText.replace(/[^0-9]/g, ""));
@@ -42,18 +47,6 @@ function StartGame({ onStartGame }: StartGameProps) {
     setEnteredValue("");
     setConfirmed(false);
   }
-
-  useEffect(() => {
-    const updateLayout = () => {
-      setButtonWidth(Dimensions.get("window").width / 4);
-    };
-  
-    Dimensions.addEventListener("change", updateLayout);
-
-    return () => {
-      Dimensions.removeEventListener("change", updateLayout);
-    }
-  })
 
   function confirmInputHandler() {
     const chosenNumber = parseInt(enteredValue);

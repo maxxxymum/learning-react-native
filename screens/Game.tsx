@@ -6,7 +6,6 @@ import {
   ViewStyle,
   Alert,
   ScrollView,
-  Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -15,6 +14,8 @@ import Card from "../components/Card";
 import MainButton from "../components/MainButton";
 import BodyText from "../components/BodyText";
 import DefaultStyles from "../constants/default-styles";
+
+import useDeviceDimensions from "../hooks/useDeviceDimensions";
 
 function generateRandomBetween(
   min: number,
@@ -87,26 +88,6 @@ function useGameLogic(
   return [currentGuess, nextGuessHandler, pastGuesses];
 }
 
-function useDeviceHeight() {
-  const [availableDeviceHeight, setAvailableDeviceHeight] = useState(
-    Dimensions.get("window").height
-  );
-
-  useEffect(() => {
-    const updateLayout = () => {
-      setAvailableDeviceHeight(Dimensions.get("window").height);
-    };
-
-    Dimensions.addEventListener("change", updateLayout);
-
-    return () => {
-      Dimensions.removeEventListener("change", updateLayout);
-    };
-  });
-
-  return availableDeviceHeight;
-}
-
 const GameScreen: FunctionComponent<GameScreenProps> = ({
   userChoice,
   onGameOver,
@@ -115,7 +96,7 @@ const GameScreen: FunctionComponent<GameScreenProps> = ({
     userChoice,
     onGameOver
   );
-  const deviceHeight = useDeviceHeight();
+  const { deviceWidth, deviceHeight } = useDeviceDimensions();
 
   if (deviceHeight < 500) {
     return (
@@ -154,7 +135,12 @@ const GameScreen: FunctionComponent<GameScreenProps> = ({
 
       <NumberContainer>{currentGuess}</NumberContainer>
 
-      <Card style={styles.buttonContainer}>
+      <Card
+        style={[
+          styles.buttonContainer,
+          { marginTop: deviceHeight > 600 ? 20 : 10 },
+        ]}
+      >
         <MainButton onPress={() => nextGuessHandler("lower")}>
           <Ionicons name="md-remove" size={24} />
         </MainButton>
@@ -166,7 +152,13 @@ const GameScreen: FunctionComponent<GameScreenProps> = ({
       <View style={styles.listContainer}>
         <ScrollView contentContainerStyle={styles.list}>
           {pastGuesses.map((guess, index) => (
-            <View key={guess} style={styles.listItem}>
+            <View
+              key={guess}
+              style={[
+                styles.listItem,
+                { width: deviceWidth > 350 ? "60%" : "90%" },
+              ]}
+            >
               <BodyText>#{pastGuesses.length - index}</BodyText>
               <BodyText>{guess}</BodyText>
             </View>
@@ -195,7 +187,6 @@ const styles = StyleSheet.create<Styles>({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: Dimensions.get("window").height > 600 ? 20 : 10,
     width: 300,
     maxWidth: "80%",
   },
@@ -215,7 +206,6 @@ const styles = StyleSheet.create<Styles>({
     flexGrow: 1,
   },
   listItem: {
-    width: Dimensions.get("window").width > 350 ? "60%" : "90%",
     borderColor: "black",
     borderWidth: 1,
     padding: 15,
