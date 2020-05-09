@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   ViewStyle,
   TextStyle,
+  TouchableNativeFeedback,
+  Platform,
 } from "react-native";
 
 import Colors from "../constants/colors";
@@ -14,27 +16,45 @@ interface MainButtonProps {
   onPress: () => void;
 }
 
-const MainButton: React.FunctionComponent<MainButtonProps> = ({ onPress, children }) => {
+const MainButton: React.FunctionComponent<MainButtonProps> = ({
+  onPress,
+  children,
+}) => {
+  let ButtonComponent: any;
+
+  if (Platform.OS === "android" && Platform.Version >= 21) {
+    ButtonComponent = TouchableNativeFeedback;
+  } else {
+    ButtonComponent = TouchableOpacity;
+  }
+
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.button}>
-        <Text style={styles.buttonText}>{children}</Text>
-      </View>
-    </TouchableOpacity>
+    <View style={styles.buttonContainer}>
+      <ButtonComponent onPress={onPress}>
+        <View style={styles.button}>
+          <Text style={styles.buttonText}>{children}</Text>
+        </View>
+      </ButtonComponent>
+    </View>
   );
 };
 
 interface Styles {
+  buttonContainer: ViewStyle;
   button: ViewStyle;
   buttonText: TextStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
+  buttonContainer: {
+    borderRadius: 25,
+    overflow: "hidden",
+  },
   button: {
     backgroundColor: Colors.primary,
     paddingVertical: 12,
     paddingHorizontal: 30,
-    borderRadius: 25
+    borderRadius: 25,
   },
   buttonText: {
     color: "white",
