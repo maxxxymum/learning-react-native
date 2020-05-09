@@ -7,7 +7,6 @@ import {
   ImageStyle,
   Text,
   TextStyle,
-  Dimensions,
   ScrollView,
 } from "react-native";
 
